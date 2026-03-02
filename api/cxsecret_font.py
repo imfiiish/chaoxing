@@ -31,19 +31,13 @@ KX_RADICALS_TAB = str.maketrans(
 def resource_path(relative_path: str) -> str:
     """
     获取资源文件的路径，兼容PyInstaller打包后的环境
-
-    Args:
-        relative_path: 相对路径
-
-    Returns:
-        资源文件的绝对路径
     """
     try:
         # PyInstaller创建临时文件夹，定位路径
         base_path = sys._MEIPASS
     except Exception:
-        # 非打包环境，使用当前目录
-        base_path = os.path.abspath(".")
+        # 非打包环境，基于当前文件所在目录向上两级 (api -> chaoxing)
+        base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
     return os.path.join(base_path, relative_path)
 
